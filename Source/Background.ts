@@ -31,19 +31,21 @@ chrome.browserAction.onClicked.addListener(function(tab) {
     });
 });*/
 
-chrome.commands.onCommand.addListener(function(command) {
-	if (command == "killTab") {
-		chrome.tabs.query(
-			{currentWindow: true, active: true},
-			function(tabs) {
-				//alert("TabID:" + tabs[0].id);
-				chrome.processes.getProcessIdForTab(tabs[0].id, function(processID) {
-					//alert("ProcessID:" + processID);
-					chrome.processes.terminate(processID, function(status) {
-						//alert("Success:" + status);
+export function Start_Background() {
+	chrome.commands.onCommand.addListener(function(command) {
+		if (command == "killTab") {
+			chrome.tabs.query(
+				{currentWindow: true, active: true},
+				function(tabs) {
+					//alert("TabID:" + tabs[0].id);
+					chrome.processes.getProcessIdForTab(tabs[0].id, function(processID) {
+						//alert("ProcessID:" + processID);
+						chrome.processes.terminate(processID, function(status) {
+							//alert("Success:" + status);
+						});
 					});
-				});
-			}
-		);
-	}
-});
+				}
+			);
+		}
+	});
+}

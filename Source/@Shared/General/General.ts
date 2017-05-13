@@ -53,10 +53,6 @@ export function GetScroll(dom: HTMLElement) {
 	return new Vector2i(dom.scrollLeft, dom.scrollTop);
 }
 
-export function E(...extenders: any[]) {
-	return Object.assign({}, ...extenders);
-}
-
 function IndexOfAny(...strings) {
     var lowestIndex = -1;
     for (let str of strings) {
@@ -94,3 +90,19 @@ ${str}
 </style>
 	`);
 };
+
+export function StableSort(array, compare: (aItem, bItem, aIndex: number, bIndex: number)=>number) { // needed for Chrome
+	var array2 = array.map((item, index)=>({index, item}));
+	array2.sort((a, b)=> {
+		var r = compare(a.item, b.item, a.index, b.index);
+		return r != 0 ? r : Compare(a.index, b.index);
+	});
+	return array2.map(pack=>pack.item);
+}
+export function Compare(a, b, caseSensitive = true) {
+	if (!caseSensitive && typeof a == "string" && typeof b == "string") {
+		a = a.toLowerCase();
+		b = b.toLowerCase();
+	}
+	return a < b ? -1 : (a > b ? 1 : 0);
+}

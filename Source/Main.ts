@@ -1,4 +1,15 @@
-declare var chrome, require;
+import "./@Shared/General/Start_0";
+import "./@Shared/General/ClassExtensions/CE";
+import "./@Shared/General/Start_1";
+import "./@Shared/General/Logging";
+import "./@Shared/General/Assert";
+import "./@Shared/General/Globals";
+
+import {Start_Background} from "./Background";
+import {Start_OnPageLoad} from "./OnPageLoad";
+import {Start_Popup} from "./Popup";
+
+//declare global { var chrome, require, React; }
 
 enum ContextType {
 	Background,
@@ -14,12 +25,12 @@ if (document.getElementById("popupBody")) {
 } else {
 	context = ContextType.OnPageLoad;
 }
-console.log("Context: " + ContextType[context]);
+//console.log("Context: " + ContextType[context]);
 
 if (context == ContextType.Background) {
-	require("./Background");
+	Start_Background();
 } else if (context == ContextType.OnPageLoad) {
-	require("./OnPageLoad");
+	Start_OnPageLoad();
 } else {
-	require("./Popup");
+	Start_Popup();
 }

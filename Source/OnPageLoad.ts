@@ -69,3 +69,6 @@ function ToVString(date, useUTCTimeZone) {
 	if (msg.action == 'open_dialog_box')
 		alert("Message recieved!");
 });*/
+
+export function Start_OnPageLoad() {
+}
