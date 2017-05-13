@@ -5,11 +5,12 @@ import "./@Shared/General/Logging";
 import "./@Shared/General/Assert";
 import "./@Shared/General/Globals";
 
-import {Start_Background} from "./Background";
+/*import {Start_Background} from "./Background";
 import {Start_OnPageLoad} from "./OnPageLoad";
-import {Start_Popup} from "./Popup";
+import {Start_Popup} from "./Popup";*/
 
 //declare global { var chrome, require, React; }
+declare global { var require; }
 
 enum ContextType {
 	Background,
@@ -27,10 +28,11 @@ if (document.getElementById("popupBody")) {
 }
 //console.log("Context: " + ContextType[context]);
 
+// use require, for faster startup (saves ~50ms, from on-page-load startup-time -- probably because it doesn't use react)
 if (context == ContextType.Background) {
-	Start_Background();
+	require("./Background").Start_Background();
 } else if (context == ContextType.OnPageLoad) {
-	Start_OnPageLoad();
+	require("./OnPageLoad").Start_OnPageLoad();
 } else {
-	Start_Popup();
+	require("./Popup").Start_Popup();
 }

@@ -1,6 +1,7 @@
 /// <reference types="react" />
 import { BaseComponent } from "../BaseComponent";
 import "../General/Globals";
+import * as React from "react";
 export default class Row extends BaseComponent<{
     style?;
 } & React.HTMLProps<HTMLDivElement>, {}> {

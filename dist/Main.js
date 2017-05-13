@@ -75,13 +75,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	__webpack_require__(50);
 
-	var _Background = __webpack_require__(51);
-
-	var _OnPageLoad = __webpack_require__(52);
-
-	var _Popup = __webpack_require__(53);
-
-	//declare global { var chrome, require, React; }
 	var ContextType;
 	(function (ContextType) {
 	    ContextType[ContextType["Background"] = 0] = "Background";
@@ -98,12 +91,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    context = ContextType.OnPageLoad;
 	}
 	//console.log("Context: " + ContextType[context]);
+	// use require, for faster startup (saves ~50ms, from on-page-load startup-time -- probably because it doesn't use react)
 	if (context == ContextType.Background) {
-	    (0, _Background.Start_Background)();
+	    __webpack_require__(51).Start_Background();
 	} else if (context == ContextType.OnPageLoad) {
-	    (0, _OnPageLoad.Start_OnPageLoad)();
+	    __webpack_require__(52).Start_OnPageLoad();
 	} else {
-	    (0, _Popup.Start_Popup)();
+	    __webpack_require__(53).Start_Popup();
 	}
 
 /***/ },
@@ -1568,17 +1562,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 8 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
+	// react actually should not be a global in this case, since some runs will not use it (eg. in background)
+	/*import * as React from "react";
+	G({React});*/
 	"use strict";
-
-	var _react = __webpack_require__(9);
-
-	var React = _interopRequireWildcard(_react);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	G({ React: React });
 
 /***/ },
 /* 9 */
@@ -24398,6 +24387,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _BaseComponent3 = __webpack_require__(204);
 
 	__webpack_require__(50);
+
+	var _react = __webpack_require__(9);
+
+	var React = _interopRequireWildcard(_react);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
