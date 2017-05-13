@@ -6612,6 +6612,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: true
 	});
 
+	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	exports.Start_Popup = Start_Popup;
@@ -6656,11 +6658,30 @@ return /******/ (function(modules) { // webpackBootstrap
 	            value: function render() {
 	                var _this2 = this;
 
-	                return React.createElement("div", null, React.createElement("div", null, "Scientific notation toggler:"), React.createElement(_Row2.default, null, React.createElement("input", { ref: function ref(c) {
-	                        return _this2.toggler = c;
+	                return React.createElement("div", null, React.createElement("div", null, "Number helper:"), React.createElement(_Row2.default, null, React.createElement("input", { ref: function ref(c) {
+	                        return _this2.numberInput = c;
 	                    }, type: "text", defaultValue: "", style: { flex: 1 } }), React.createElement("button", { onClick: function onClick() {
-	                        alert("Val: " + _this2.toggler.value);
-	                    } }, "Toggle")));
+	                        var str = _this2.numberInput.value;
+	                        /*let [, integerPart, fractionalPart, exponentPart] = str.match(/([0-9])+\.([0-9]+)e([-0-9]+)/);
+	                        this.numberInput.value = newStr;*/
+	                        var number = parseFloat(str.replace(/\,/g, ""));
+	                        _this2.numberInput.value = number.toString();
+	                    }, title: "Remove scientific notation and commas" }, "Simplify"), React.createElement("button", { onClick: function onClick() {
+	                        var str = _this2.numberInput.value;
+	                        if (str.includes(",")) {
+	                            _this2.numberInput.value = str.replace(/\,/g, "");
+	                        } else {
+	                            var _str$match = str.match(/([0-9]+)(\.([0-9]+))?/),
+	                                _str$match2 = _slicedToArray(_str$match, 4),
+	                                _ = _str$match2[0],
+	                                integerPart = _str$match2[1],
+	                                __ = _str$match2[2],
+	                                fractionalPart = _str$match2[3];
+
+	                            var integerPart_new = parseInt(integerPart).toLocaleString("en"); // add commas to integer part
+	                            _this2.numberInput.value = integerPart_new + (fractionalPart == null ? "" : "." + fractionalPart);
+	                        }
+	                    }, title: "Toggle commas" }, "Toggle commas")));
 	            }
 	        }]);
 
