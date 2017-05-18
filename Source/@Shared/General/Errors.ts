@@ -3,10 +3,10 @@ import {TrimStart} from "./ClassHelpers/CH_String";
 
 //if (!hotReloading) {
 //g.onerror = function(message: string, filePath: string, line: number, column: number, error: Error) {
-g.addEventListener("error", e=> {
+/*g.addEventListener("error", e=> {
 	let {message, filename: filePath, lineno: line, colno: column, error} = e as {message: string, filename: string, lineno: number, colno: number, error: Error};
 	/*LogError(`JS) ${message} (at ${filePath}:${line}:${column})
-Stack) ${error.stack}`);*/
+Stack) ${error.stack}`);*#/
 	// sentry already picks up errors that make it here; so don't send it to sentry again
 	if (error != null) {
 		HandleError(error, false, false);
@@ -29,7 +29,7 @@ export function HandleError(error: Error, fatal = false, recordWithSentry = true
 		error.stack && error.message && error.stack.Contains(error.message)
 			? error.stack.replace(error.message, "")
 			: error.stack || ""
-	).TrimStart("\r", "\n");*/
+	).TrimStart("\r", "\n");*#/
 	let stack = TrimStart((error.stack || "").replace(/\r/g, ""), "\n");
 
 	//alert("An error occurred: " + error);
@@ -45,10 +45,10 @@ export function HandleError(error: Error, fatal = false, recordWithSentry = true
 
 	/*if (recordWithSentry) {
 		Raven.captureException(error);
-	}*/
+	}*#/
 
 	//store.dispatch(new ACTNotificationMessageAdd(new NotificationMessage(errorStr)));
-}
+}*/
 
 //static GetStackTraceStr(stackTrace?: string, sourceStackTrace?: boolean);
 export function GetStackTraceStr(sourceStackTrace?: boolean);

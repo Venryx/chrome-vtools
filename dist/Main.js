@@ -274,71 +274,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 5 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.HandleError = HandleError;
 	exports.GetStackTraceStr = GetStackTraceStr;
-
-	var _Logging = __webpack_require__(4);
-
-	var _CH_String = __webpack_require__(201);
-
-	//if (!hotReloading) {
-	//g.onerror = function(message: string, filePath: string, line: number, column: number, error: Error) {
-	g.addEventListener("error", function (e) {
-	    var message = e.message,
-	        filePath = e.filename,
-	        line = e.lineno,
-	        column = e.colno,
-	        error = e.error;
-	    /*LogError(`JS) ${message} (at ${filePath}:${line}:${column})
-	    Stack) ${error.stack}`);*/
-	    // sentry already picks up errors that make it here; so don't send it to sentry again
-
-	    if (error != null) {
-	        HandleError(error, false, false);
-	    } else {
-	        HandleError({ stack: filePath + ":" + line + ":" + column, toString: function toString() {
-	                return message;
-	            } }, false, false);
-	    }
-	});
-	g.addEventListener("unhandledrejection", function (e) {
-	    //console.error(`Unhandled rejection (promise: `, e.promise, `, reason: `, e.reason, `).`);
-	    HandleError(e.reason);
-	});
-	g.addEventListener("onrejectionhandled", function (e) {
-	    //console.error(`Unhandled rejection (promise: `, e.promise, `, reason: `, e.reason, `).`);
-	    HandleError(e.reason);
-	});
-	function HandleError(error) {
-	    var fatal = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-	    var recordWithSentry = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-
-	    var message = (0, _CH_String.TrimStart)((error.message || error.toString()).replace(/\r/g, ""), "\n");
-	    /*let stackWithoutMessage = (
-	        error.stack && error.message && error.stack.Contains(error.message)
-	            ? error.stack.replace(error.message, "")
-	            : error.stack || ""
-	    ).TrimStart("\r", "\n");*/
-	    var stack = (0, _CH_String.TrimStart)((error.stack || "").replace(/\r/g, ""), "\n");
-	    //alert("An error occurred: " + error);
-	    var errorStr = "";
-	    if (!message.startsWith("Assert failed) ")) errorStr += "An error has occurred: ";
-	    if (!stack.includes(message)) errorStr += message;
-	    errorStr += (errorStr.length ? "\n" : "") + stack;
-	    if (fatal) errorStr += "\n[fatal]";
-	    (0, _Logging.LogError)(errorStr);
-	    /*if (recordWithSentry) {
-	        Raven.captureException(error);
-	    }*/
-	    //store.dispatch(new ACTNotificationMessageAdd(new NotificationMessage(errorStr)));
-	}
 	//@((()=> { if (g.onclick == null) g.onclick = ()=>console.log(V.GetStackTraceStr()); }) as any)
 	function GetStackTraceStr() {
 	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
@@ -23072,46 +23015,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	}(_BaseComponent3.BaseComponent);
 
 	RowLR.defaultProps = { splitAt: "50%" };
-
-/***/ },
-/* 201 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.TrimStart = TrimStart;
-
-	var _CH_Array = __webpack_require__(202);
-
-	function TrimStart(s) {
-	    for (var _len = arguments.length, chars = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-	        chars[_key - 1] = arguments[_key];
-	    }
-
-	    // fix for if called by VDF (which has a different signature)
-	    //if (arguments[0] instanceof Array) chars = arguments[0];
-	    for (var iOfFirstToKeep = 0; iOfFirstToKeep < s.length && (0, _CH_Array.Contains)(chars, s[iOfFirstToKeep]); iOfFirstToKeep++) {}
-	    return s.slice(iOfFirstToKeep, s.length);
-	}
-	;
-
-/***/ },
-/* 202 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.Contains = Contains;
-	function Contains(s, items) {
-	  return this.indexOf(items) != -1;
-	}
-	;
 
 /***/ }
 /******/ ])
