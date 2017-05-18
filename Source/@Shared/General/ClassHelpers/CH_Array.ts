@@ -1,0 +1,1 @@
+export function Contains(s: any[], items) { return this.indexOf(items) != -1; };

@@ -3,10 +3,10 @@ import "./Globals"; // fake/empty import, so this module is correctly seen as mo
 export function E(...objExtends: any[]) {
     var result = {};
     for (var extend of objExtends)
-        result.Extend(extend);
+        Object.assign(result, extend);
 	return result;
 	//return StyleSheet.create(result);
 }
-g.Extend({E}); declare global { function E(...objExtends: any[]); }
+G({E}); declare global { function E(...objExtends: any[]); }
 
 export function Global() {}

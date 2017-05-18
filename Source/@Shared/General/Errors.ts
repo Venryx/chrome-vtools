@@ -1,4 +1,5 @@
 import {LogError} from "./Logging";
+import {TrimStart} from "./ClassHelpers/CH_String";
 
 //if (!hotReloading) {
 //g.onerror = function(message: string, filePath: string, line: number, column: number, error: Error) {
@@ -23,19 +24,19 @@ g.addEventListener("onrejectionhandled", e=>{
 });
 
 export function HandleError(error: Error, fatal = false, recordWithSentry = true) {
-	let message = (error.message || error.toString()).replace(/\r/g, "").TrimStart("\n");
+	let message = TrimStart((error.message || error.toString()).replace(/\r/g, ""), "\n");
 	/*let stackWithoutMessage = (
 		error.stack && error.message && error.stack.Contains(error.message)
 			? error.stack.replace(error.message, "")
 			: error.stack || ""
 	).TrimStart("\r", "\n");*/
-	let stack = (error.stack || "").replace(/\r/g, "").TrimStart("\n");
+	let stack = TrimStart((error.stack || "").replace(/\r/g, ""), "\n");
 
 	//alert("An error occurred: " + error);
 	let errorStr = "";
 	if (!message.startsWith("Assert failed) "))
 		errorStr += `An error has occurred: `;
-	if (!stack.Contains(message))
+	if (!stack.includes(message))
 		errorStr += message;
 	errorStr += (errorStr.length ? "\n" : "") + stack;
 	if (fatal)

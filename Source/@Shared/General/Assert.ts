@@ -1,5 +1,6 @@
 import {GetStackTraceStr} from "./Errors";
-g.Extend({Assert}); declare global { function Assert(condition, messageOrMessageFunc?: string | Function); }
+
+G({Assert}); declare global { function Assert(condition, messageOrMessageFunc?: string | Function); }
 export function Assert(condition, messageOrMessageFunc?: string | Function) {
 	if (condition) return;
 
@@ -10,7 +11,7 @@ export function Assert(condition, messageOrMessageFunc?: string | Function) {
 	debugger;
 	throw new Error("Assert failed) " + message);
 }
-g.Extend({AssertWarn}); declare global { function AssertWarn(condition, messageOrMessageFunc?: string | Function); }
+G({AssertWarn}); declare global { function AssertWarn(condition, messageOrMessageFunc?: string | Function); }
 export function AssertWarn(condition, messageOrMessageFunc?: string | Function) {
 	if (condition) return;
 
@@ -20,7 +21,7 @@ export function AssertWarn(condition, messageOrMessageFunc?: string | Function) 
 }
 
 // this version throws an error with only the provided message -- for ones the user may well see, and which don't need the stack (or "Assert failed) " text)
-/*g.Extend({AssertSimple});
+/*G({AssertSimple});
 export function AssertSimple(condition, messageOrMessageFunc?: string | Function) {
 	if (condition) return;
 
@@ -54,4 +55,4 @@ export class A_OfType_Wrapper {
 	type;
     set a(val) { Assert(val != null && val.GetType().IsDerivedFrom(this.type)); }
 }
-g.Extend({A, A_NotEqualTo_Wrapper, A_OfType_Wrapper});
+G({A, A_NotEqualTo_Wrapper, A_OfType_Wrapper});

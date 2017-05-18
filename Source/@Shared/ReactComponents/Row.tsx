@@ -57,7 +57,7 @@ export class RowLR extends BaseComponent<{splitAt?: number | string, height?: nu
 				</div>
 				<div style={E(
 					{display: "flex", alignItems: "center"},
-					{width: typeof splitAt == "string" ? (100 - splitAt.slice(0, -1).ToInt()) + "%" : `calc(100% - ${splitAt}px)`},
+					{width: typeof splitAt == "string" ? (100 - parseInt(splitAt.slice(0, -1))) + "%" : `calc(100% - ${splitAt}px)`},
 					rightStyle
 				)}>
 					{children[1]}

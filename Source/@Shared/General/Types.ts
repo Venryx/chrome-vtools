@@ -13,7 +13,7 @@ export var int = ()=>"int" as any as (new(..._)=>number);
 export var double = ()=>"double" as any as (new(..._)=>number);
 export var string = ()=>"string" as any as (new(..._)=>string);
 
-g.Extend({IsNaN}); declare global { function IsNaN(obj): boolean; }
+G({IsNaN}); declare global { function IsNaN(obj): boolean; }
 export function IsNaN(obj) { return typeof obj == "number" && obj != obj; }
 export function IsPrimitive(obj) { return IsBool(obj) || IsNumber(obj) || IsString(obj); }
 export function IsBool(obj) : obj is boolean { return typeof obj == "boolean"; } //|| obj instanceof Boolean
@@ -21,18 +21,18 @@ export function ToBool(boolStr) { return boolStr == "true" ? true : false; }
 
 export function IsObject(obj) : obj is Object { return typeof obj == "object"; }
 export function IsObjectOf<T>(obj) : obj is T { return typeof obj == "object"; }
-g.Extend({IsNumber}); declare global { function IsNumber(obj): obj is number; }
+G({IsNumber}); declare global { function IsNumber(obj): obj is number; }
 export function IsNumber(obj, allowNumberObj = false): obj is number {
 	return typeof obj == "number" || (allowNumberObj && obj instanceof Number);
 }
-g.Extend({IsNumberString}); declare global { function IsNumberString(obj): boolean; }
+G({IsNumberString}); declare global { function IsNumberString(obj): boolean; }
 export function IsNumberString(obj) { return IsString(obj) && parseInt(obj).toString() == obj; }
 export function IsInt(obj) : obj is number { return typeof obj == "number" && parseFloat(obj as any) == parseInt(obj as any); }
 export function ToInt(stringOrFloatVal) { return parseInt(stringOrFloatVal); }
 export function IsDouble(obj) : obj is number { return typeof obj == "number" && parseFloat(obj as any) != parseInt(obj as any); }
 export function ToDouble(stringOrIntVal) { return parseFloat(stringOrIntVal); }
 
-g.Extend({IsString}); declare global { function IsString(obj, allowStringObj?: boolean): boolean; }
+G({IsString}); declare global { function IsString(obj, allowStringObj?: boolean): boolean; }
 export function IsString(obj, allowStringObj = false) : obj is string {
 	return typeof obj == "string" || (allowStringObj && obj instanceof String);
 }
@@ -66,7 +66,7 @@ export function CreateClass(baseClass, classMembers) {
 	result.prototype = new constructorHelper();
 
 	if (classMembers)
-		result.prototype.Extend(classMembers);
+		result.prototypeG(classMembers);
 
 	result.prototype.constructor = result;
 	result.__super__ = baseClass.prototype;

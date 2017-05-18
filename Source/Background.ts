@@ -31,6 +31,7 @@ chrome.browserAction.onClicked.addListener(function(tab) {
     });
 });*/
 
+declare var chrome;
 export function Start_Background() {
 	chrome.commands.onCommand.addListener(function(command) {
 		if (command == "killTab") {

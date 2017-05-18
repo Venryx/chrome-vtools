@@ -10,6 +10,7 @@ g.$ = JQuery;*/
 
 declare global { function G(...globalHolders); } g.G = G;
 function G(...globalHolders) {
-	for (let globalHolder of globalHolders)
-		g.Extend(globalHolder);
+	for (let globalHolder of globalHolders) {
+		Object.assign(g, globalHolder);
+	}
 }

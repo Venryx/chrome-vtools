@@ -31,7 +31,7 @@ console.warn = function(...args) {
 var error_orig = console.error;
 console.error = function(exception) {
     var str = exception + "";
-    if (str.Contains('Warning: A component is `contentEditable`')) return;
+    if (str.includes('Warning: A component is `contentEditable`')) return;
     //if (str.Contains("Warning: Unknown prop `")) return;
     error_orig.apply(this, arguments);
 
@@ -42,7 +42,7 @@ console.error = function(exception) {
 //console.table = function() { console.log.apply(this, arguments); };
 
 export var onLogFuncs = [];
-declare global { function Log(...args); } g.Extend({Log});
+declare global { function Log(...args); } G({Log});
 export function Log(message, appendStackTrace = false, logLater = false) {
 	// #mms: add-stack-trace-and-current-call-info-to-logs setting exists
 
@@ -63,17 +63,17 @@ export function Log(message, appendStackTrace = false, logLater = false) {
 	return message;
 }
 
-declare global { function LogLater(message, appendStackTrace?); } g.Extend({LogLater});
+declare global { function LogLater(message, appendStackTrace?); } G({LogLater});
 export function LogLater(message, appendStackTrace = false) {
     Log(message, appendStackTrace, true);
 }
-declare global { function LogWarning(message, appendStackTrace?, logLater?); } g.Extend({LogWarning});
+declare global { function LogWarning(message, appendStackTrace?, logLater?); } G({LogWarning});
 export function LogWarning(message, appendStackTrace = false, logLater = false) {
 	console.warn("LogWarning) " + message);
 	return message;
 }
 
-declare global { function LogError(message, appendStackTrace?, logLater?); } g.Extend({LogError});
+declare global { function LogError(message, appendStackTrace?, logLater?); } G({LogError});
 export function LogError(message, appendStackTrace = false, logLater = false) {
 	console.error("LogError) " + message);
 	return message;
