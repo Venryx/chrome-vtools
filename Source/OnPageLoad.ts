@@ -91,7 +91,8 @@ export function Start_OnPageLoad() {
 			var json = match ? match[0] : null;
 			// multiple OnPageLoad instances are running, so only send if has data
 			if (json) {
-				sendResponse(json);
+				let message = window.location.href + "\n\n\n==========\n\n\n" + json;
+				sendResponse(message);
 			}
 		}
 	});
