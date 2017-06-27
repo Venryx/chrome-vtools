@@ -2,6 +2,9 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import {BaseComponent} from "./@Shared/BaseComponent";
 import Row from "./@Shared/ReactComponents/Row";
+import {ExtractSongInfoFromPage} from "./Deezer/SongInfoExtractor";
+
+var g = window as any;
 
 export function Start_Popup() {
 	//document.getElementById("popupBody").appendChild(document.createTextNode("Hi123"));
@@ -36,10 +39,22 @@ export function Start_Popup() {
 							Toggle commas
 						</button>
 					</Row>
+					<Row>
+						<button onClick={()=> {
+							ExtractSongInfoFromPage();
+						}}>
+							Get Deever song info
+						</button>
+					</Row>
 				</div>
 			);
 		}
 	}
 
 	ReactDOM.render(<Popup/>, document.getElementById("popupBody"), null);
+
+	/*g.chrome.extension.onMessage.addListener(function(msg, sender, sendResponse) {
+		if (msg.action == 'song_info_received')
+			alert("Message recieved!" + msg);
+	});*/
 }

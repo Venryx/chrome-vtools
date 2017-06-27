@@ -15,4 +15,4 @@ export declare function GetScroll(dom: HTMLElement): Vector2i;
 export declare function AddGlobalElement(html: string): void;
 export declare function AddGlobalStyle(str: any): void;
 export declare function StableSort(array: any, compare: (aItem, bItem, aIndex: number, bIndex: number) => number): any;
-export declare function Compare(a: any, b: any, caseSensitive?: boolean): 0 | 1 | -1;
+export declare function Compare(a: any, b: any, caseSensitive?: boolean): 1 | 0 | -1;

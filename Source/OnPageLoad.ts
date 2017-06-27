@@ -70,5 +70,29 @@ function ToVString(date, useUTCTimeZone) {
 		alert("Message recieved!");
 });*/
 
+//declare var $;
 export function Start_OnPageLoad() {
+	/*window.addEventListener("load", ()=> {
+		var json = document.head.outerHTML.match(/\{.*PRODUCT_TRACK_ID.*\}/);
+		if (json) {
+			g.chrome.tabs.getSelected(null, function(tab) {
+				g.chrome.tabs.sendMessage(tab.id, { action: "song_info_received" }, function(response) {
+					alert("Response:" + response);
+				});
+			});
+		}
+	});*/
+
+	g.chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
+		if (msg.text === "get_song_info") {
+			//if (window.location.hostname != "www.deezer.com") return;
+
+			var match = document.head.outerHTML.match(/\{.*PRODUCT_TRACK_ID.*\}/);
+			var json = match ? match[0] : null;
+			// multiple OnPageLoad instances are running, so only send if has data
+			if (json) {
+				sendResponse(json);
+			}
+		}
+	});
 }

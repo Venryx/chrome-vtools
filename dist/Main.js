@@ -568,6 +568,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (msg.action == 'open_dialog_box')
 	        alert("Message recieved!");
 	});*/
+	//declare var $;
 	/*s.Process2 = function() {
 	    if (window.location.href.indexOf("drive.google.com") != -1)
 	        //$(".k-v-ta-za-Aa").on("keypress", function(data, event)
@@ -610,7 +611,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (!useUTCTimeZone)
 	        date = new Date(date.getTime() + (1000 * 60 * 60 * -(date.getTimezoneOffset() / 60))); // offset timezone different
 	    return date.toISOString().replace("T", " ").replace(/\..+/g, "");
-	};*/function Start_OnPageLoad() {}
+	};*/function Start_OnPageLoad() {
+	    /*window.addEventListener("load", ()=> {
+	        var json = document.head.outerHTML.match(/\{.*PRODUCT_TRACK_ID.*\}/);
+	        if (json) {
+	            g.chrome.tabs.getSelected(null, function(tab) {
+	                g.chrome.tabs.sendMessage(tab.id, { action: "song_info_received" }, function(response) {
+	                    alert("Response:" + response);
+	                });
+	            });
+	        }
+	    });*/
+	    g.chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
+	        if (msg.text === "get_song_info") {
+	            //if (window.location.hostname != "www.deezer.com") return;
+	            var match = document.head.outerHTML.match(/\{.*PRODUCT_TRACK_ID.*\}/);
+	            var json = match ? match[0] : null;
+	            // multiple OnPageLoad instances are running, so only send if has data
+	            if (json) {
+	                sendResponse(json);
+	            }
+	        }
+	    });
+	}
 
 /***/ },
 /* 10 */
@@ -642,6 +665,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _Row2 = _interopRequireDefault(_Row);
 
+	var _SongInfoExtractor = __webpack_require__(201);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
@@ -652,6 +677,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	var g = window;
 	function Start_Popup() {
 	    //document.getElementById("popupBody").appendChild(document.createTextNode("Hi123"));
 	    var Popup = function (_BaseComponent) {
@@ -691,7 +717,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                            var integerPart_new = parseInt(integerPart).toLocaleString("en"); // add commas to integer part
 	                            _this2.numberInput.value = integerPart_new + (fractionalPart == null ? "" : "." + fractionalPart);
 	                        }
-	                    }, title: "Toggle commas" }, "Toggle commas")));
+	                    }, title: "Toggle commas" }, "Toggle commas")), React.createElement(_Row2.default, null, React.createElement("button", { onClick: function onClick() {
+	                        (0, _SongInfoExtractor.ExtractSongInfoFromPage)();
+	                    } }, "Get Deever song info")));
 	            }
 	        }]);
 
@@ -699,6 +727,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }(_BaseComponent2.BaseComponent);
 
 	    ReactDOM.render(React.createElement(Popup, null), document.getElementById("popupBody"), null);
+	    /*g.chrome.extension.onMessage.addListener(function(msg, sender, sendResponse) {
+	        if (msg.action == 'song_info_received')
+	            alert("Message recieved!" + msg);
+	    });*/
 	}
 
 /***/ },
@@ -23015,6 +23047,73 @@ return /******/ (function(modules) { // webpackBootstrap
 	}(_BaseComponent3.BaseComponent);
 
 	RowLR.defaultProps = { splitAt: "50%" };
+
+/***/ },
+/* 201 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.ExtractSongInfoFromPage = ExtractSongInfoFromPage;
+	function ExtractSongInfoFromPage() {
+	    g.chrome.tabs.getSelected(null, function (tab) {
+	        g.chrome.tabs.sendMessage(tab.id, { text: "get_song_info" }, function (data) {
+	            if (data == null) {
+	                alert("Failed to get song info.");
+	                return;
+	            }
+	            try {
+	                CopyText(data);
+	                //alert("Text copied!\n\n" + data);
+	            } catch (e) {
+	                alert("Error: " + e.stack);
+	            }
+	        });
+	    });
+	    /*var json = document.body.outerHTML.match(/\{.*PRODUCT_TRACK_ID.*\}/);
+	      alert("background page data:" + g.chrome.extension.getBackgroundPage().test1);
+	      alert("Text copied!\n\n" + document.body.outerHTML);
+	    CopyText(json);*/
+	}
+	var note, note2;
+	//declare var $;
+	function CopyText(text) {
+	    /*
+	    //var note = $(`<input type="text">`).appendTo("body");
+	    var note = document.createElement("textarea");
+	    document.body.appendChild(note);
+	    note.innerHTML = text;
+	      note.focus();
+	    var range = document.createRange();
+	    range.setStart(note, 0);
+	    range.setEnd(note, 1);
+	    //range.setEnd(note2, 0);
+	      //range.setEnd(e("notesEnder"), 0); // adds one extra new-line; that's okay, right?
+	    var sel = window.getSelection();
+	    sel.removeAllRanges();
+	    sel.addRange(range);
+	      document.execCommand("copy");*/
+	    document.oncopy = function (event) {
+	        event.clipboardData.setData("text/plain", text);
+	        event.preventDefault();
+	        document.oncopy = null;
+	        //alert(`Text copied!\n\n${text}`);
+	        //alert(`Text copied! (${text})`);
+	        Notify("Text copied! (" + text.length + ")");
+	    };
+	    document.execCommand("copy", false, null);
+	}
+	function Notify(text) {
+	    var note = document.createElement("div");
+	    document.body.appendChild(note);
+	    note.innerHTML = text;
+	    setTimeout(function () {
+	        note.remove();
+	    }, 3000);
+	}
 
 /***/ }
 /******/ ])
