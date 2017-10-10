@@ -19,6 +19,12 @@ export function Start_Popup() {
 						<input ref={c=>this.numberInput = c} type="text" defaultValue="" style={{flex: 1}}/>
 						<button onClick={()=> {
 							let str = this.numberInput.value;
+							this.numberInput.value = decodeURIComponent(str);
+						}}>
+							Decode
+						</button>
+						<button onClick={()=> {
+							let str = this.numberInput.value;
 							/*let [, integerPart, fractionalPart, exponentPart] = str.match(/([0-9])+\.([0-9]+)e([-0-9]+)/);
 							this.numberInput.value = newStr;*/
 							let number = parseFloat(str.replace(/\,/g, ""));

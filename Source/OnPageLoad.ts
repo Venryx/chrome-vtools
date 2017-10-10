@@ -1,3 +1,5 @@
+import { OnPageLoad_Personal } from "./@Personal/OnPageLoad";
+
 /*s.Process2 = function() {
 	if (window.location.href.indexOf("drive.google.com") != -1)
 		//$(".k-v-ta-za-Aa").on("keypress", function(data, event)
@@ -96,4 +98,6 @@ export function Start_OnPageLoad() {
 			}
 		}
 	});
+
+	OnPageLoad_Personal();
 }
